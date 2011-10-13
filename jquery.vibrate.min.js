@@ -2,10 +2,10 @@
  * jquery.vibrate.js
  * jQuery Vibrating Button Plugin
  *
- * Author:  NextCode.it <info@nextcode.it>
+ * Author:  Alberto Arena <arena.alberto@gmail.com>
  * Version: 1.0.1 
  * Date:    17 dec. 2010
- * Support: http://www.nextcode.it/demo/vibrate/
+ * Support: https://github.com/albertoarena/jQuery-Vibrate
  * 
  * Changelog
  * 1.0.1  17 dec 2010: removed "overflow:hidden" attribute to both wrapping DIVS (to allow transparency outside the vibrating box); added overEffect parameter
