@@ -1,1 +1,25 @@
-jQuery Vibrate Plugin allows you to have "vibrating" tags in your page, like buttons, DIVs, etc. It is very simple to use and integrate, and lightweight (less than 3 kB in minified version)!
+<p>jQuery Vibrate Plugin allows you to have "vibrating" tags in your page, like buttons, DIVs, etc. It is very simple to use and integrate, and lightweight (less than 3 kB in minified version)</p>
+
+HOW TO USE
+
+DOCUMENTATION
+The Vibrate plugin has some configurable options. Below is an example of available options and their defaults:
+
+$('.vibrate').vibrate({
+    speed: 50, // Vibration speed in milliseconds
+    trigger: "mouseover", // Triggering event
+    reverse: false, // Reverse behaviour
+    overEffect: "stop" // Over effect, see details below
+})
+
+speed: default value is 50 milliseconds, but can be changed
+
+trigger: it is the triggering event. Default value is "mouseover", another acceptable value is "focus"; other events are not managed
+
+reverse: default value is false; if true, the behaviour will be reversed. E.g., if triggering event is "mouseover", the tag will always vibrate but stop when mouse is over.
+
+overEffect: this is used only when "reverse" parameter is true. The appliable values are "" (empty string), "stop" or "invert". Default value is "stop":
+
+    "stop" (default value): when mouse is over the vibration will be stopped and it will start again when mouse is out;
+    "" (empty string): when mouse is over the vibration will continue without stopping;
+
