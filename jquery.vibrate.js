@@ -3,11 +3,13 @@
  * jQuery Vibrating Button Plugin
  *
  * Author:  Alberto Arena <arena.alberto@gmail.com>
- * Version: 1.0.1 
- * Date:    17 dec. 2010
+ * Version: 1.1
+ * Date:    29 oct. 2010
+ * Demo:    http://www.dev4web.eu/projects/jquery.vibrate
  * Support: https://github.com/albertoarena/jQuery-Vibrate
  * 
  * Changelog
+ * 1.1    29 oct 2010: added vibrateClass and overClass parameters
  * 1.0.1  17 dec 2010: removed "overflow:hidden" attribute to both wrapping DIVS (to allow transparency outside the vibrating box); added overEffect parameter
  * 1.0    14 dec 2010: released first version
  */
@@ -17,7 +19,7 @@
 		$(this).each(function(){
 			var $this = $(this);
 			if ( $.type($this.attr('id')) == "undefined" ) {
-				$this.attr('id') = 'vibrate_'+Math.round(Math.random()*100000000000000000);
+				$this.attr('id','vibrate_'+Math.round(Math.random()*100000000000000000));
 			}
 			$this.id = $this.attr('id');
 	
@@ -26,7 +28,9 @@
 				reverse: false,
 				speed: 50,
 				trigger: "mouseover",
-				overEffect: "stop"
+				overEffect: "stop",
+            overClass: "",
+            vibrateClass: ""
 			}; 
 			$this.defaults = $.extend($this.defaults, options);
 			$this.defaults.speedBackup = $this.defaults.speed;
@@ -70,12 +74,14 @@
 			if ( $this.defaults.reverse ) {
 				if ( $this.defaults.overEffect != "" ) {
 					$this.bind($this.defaults.trigger,function(){
+                  $this.addClass($this.defaults.overClass);
 						if ( $this.defaults.overEffect == "stop" )
 							$this.vibrationStop();
 						else if ( $this.defaults.overEffect == "invert" ) {
 							$this.defaults.speed = Math.round( $this.defaults.speed / 3 );
 						}
 					}).bind(triggerStop,function(){
+                  $this.removeClass($this.defaults.overClass);
 						if ( $this.defaults.overEffect == "invert" ) {
 							$this.defaults.speed = $this.defaults.speedBackup;
 						} else {
@@ -98,6 +104,7 @@
 			if ( $.type($(this).data("vibrate")) !== "undefined" ) {
 				$(this).data("vibrate.status",true);
 				$(this).css({margin:"0 0 0 0"});
+            $(this).addClass( $(this).data('vibrate').defaults.vibrateClass );
 				$(this).vibrationLoop();
 			}
 		}
@@ -105,6 +112,7 @@
 		$.fn.vibrationStop = function() {
 			if ( $.type($(this).data("vibrate")) !== "undefined" ) {
 				$(this).stop(false,true);
+            $(this).removeClass( $(this).data('vibrate').defaults.vibrateClass );
 				$(this).data("vibrate.status",false);
 			}
 		}
