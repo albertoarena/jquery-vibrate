@@ -3,13 +3,14 @@
  * jQuery Vibrating Button Plugin
  *
  * Author:  Alberto Arena <arena.alberto@gmail.com>
- * Version: 1.1
- * Date:    29 oct. 2010
+ * Version: 1.2
+ * Date:    16/03/2013
  * Demo:    http://www.dev4web.eu/projects/jquery.vibrate
  * Support: https://github.com/albertoarena/jQuery-Vibrate
  * 
  * Changelog
- * 1.1    29 oct 2010: added vibrateClass and overClass parameters
+ * 1.2    16 mar 2013: optimized code and improved speed
+ * 1.1    29 oct 2011: added vibrateClass and overClass parameters
  * 1.0.1  17 dec 2010: removed "overflow:hidden" attribute to both wrapping DIVS (to allow transparency outside the vibrating box); added overEffect parameter
  * 1.0    14 dec 2010: released first version
  */
@@ -37,19 +38,23 @@
 			$this.data('vibrate',$this);
 			$this.data('vibrate.status',false);
 			
+			// Cached variables
+			var outerWidth = $this.outerWidth();
+			var outerHeight = $this.outerHeight();
+			
 			// Applies wrap
 			var css1 = {
 				'float': $this.css("float"),
 				'margin': $this.css("margin-top")+' '+$this.css("margin-right")+' '+$this.css("margin-bottom")+' '+$this.css("margin-left"),
 				'display': $this.css("display"),
-				'width': $this.outerWidth(),
-				'height': $this.outerHeight(),
+				'width': outerWidth,
+				'height': outerHeight,
 				'padding': '0',
 				'border': '0'
 			}
 			var css2 = {
-				'width': $this.outerWidth(),
-				'height': $this.outerHeight(),
+				'width': outerWidth,
+				'height': outerHeight,
 				'padding': '0',
 				'margin': '0',
 				'border': '0',
@@ -101,41 +106,44 @@
 		})
 
 		$.fn.vibrationStart = function() {
-			if ( $.type($(this).data("vibrate")) !== "undefined" ) {
-				$(this).data("vibrate.status",true);
-				$(this).css({margin:"0 0 0 0"});
-            $(this).addClass( $(this).data('vibrate').defaults.vibrateClass );
-				$(this).vibrationLoop();
+			var $$this = $(this);
+			if ( $.type($$this.data("vibrate")) !== "undefined" ) {
+				$$this.data("vibrate.status",true);
+				$$this.css({margin:"0 0 0 0"});
+            $$this.addClass( $$this.data('vibrate').defaults.vibrateClass );
+				$$this.vibrationLoop();
 			}
 		}
 
 		$.fn.vibrationStop = function() {
-			if ( $.type($(this).data("vibrate")) !== "undefined" ) {
-				$(this).stop(false,true);
-            $(this).removeClass( $(this).data('vibrate').defaults.vibrateClass );
-				$(this).data("vibrate.status",false);
+			var $$this = $(this);
+			if ( $.type($$this.data("vibrate")) !== "undefined" ) {
+				$$this.stop(false,true);
+            $$this.removeClass( $$this.data('vibrate').defaults.vibrateClass );
+				$$this.data("vibrate.status",false);
 			}
 		}
 
 		$.fn.vibrationLoop = function() {
-			if ( $.type($(this).data("vibrate")) !== "undefined" ) {
-				var $this = $(this).data("vibrate");
-				if ( $(this).data("vibrate.status") == true ) {
+			var $$this = $(this);
+			if ( $.type( $$this.data("vibrate")) !== "undefined" ) {
+				//var $this = $$this.data("vibrate");
+				if ( $$this.data("vibrate.status") == true ) {
 					var css = { marginTop: 0, marginLeft: 0 }
-					var position = $(this).position();
+					var position = $$this.position();
 
-					if ( parseInt($(this).css("marginTop")) > 0 ) {
+					if ( parseInt($$this.css("marginTop")) > 0 ) {
 						css.marginTop = "-1px";
 						css.marginLeft = "-1px";
 					} else {
 						css.marginTop = "1px";
 						css.marginLeft = "1px";
 					}
-					$(this).animate(css,$this.defaults.speed,function(){
-						$(this).vibrationLoop();
+					$$this.animate(css, $$this.data("vibrate").defaults.speed,function(){
+						$$this.vibrationLoop();
 					});
 				} else {
-					$(this).css({margin:"0 0 0 0"});
+					$$this.css({margin:"0 0 0 0"});
 				}
 			}
 		}
