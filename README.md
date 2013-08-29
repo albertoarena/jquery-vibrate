@@ -72,3 +72,5 @@ $('.vibrate').vibrate({
 `vibrateClass`: name of a CSS class applied when the tag is vibrating, and removed when it stops (default value "")
 
 `callBack`: This function is called whenever vibration stops.
+
+Please note that the element will not vibrate when it already is.

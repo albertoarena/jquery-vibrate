@@ -18,7 +18,10 @@
  */
 (function($) {
 	$.fn.vibrate = function(options){
-
+		if(true == $(this).data("vibrate.status")) {
+			return;
+		}
+		
 		$(this).each(function(){
 			var $this = $(this);
 			if ( $.type($this.attr('id')) == "undefined" ) {
@@ -39,7 +42,7 @@
 			$this.defaults.speedBackup = $this.defaults.speed;
 			
 			// Applies wrap
-			if(true != $this.defaults.vibrateInitiated) {
+			if('true' != $this.data('vibrate-initiated')) {
 				var css1 = {
 					'float': $this.css("float"),
 					'margin': $this.css("margin-top")+' '+$this.css("margin-right")+' '+$this.css("margin-bottom")+' '+$this.css("margin-left"),
@@ -61,7 +64,7 @@
 				$this.parent().css( css2 );
 				$this.parent().parent().css( css1 );
 				$this.css({ "margin": "0" });
-				$this.defaults.vibrateInitiated = true;
+				$this.data('vibrate-initiated', 'true');
 			}
 
 			$this.data('vibrate',$this);
@@ -73,7 +76,7 @@
 					$this.vibrationStart();
 					setTimeout( function() {
 						$this.vibrationStop();
-					}, $this.defaults.stopAfterTime*1000);
+					}, $this.defaults.stopAfterTime*500);
 				}, Math.round(Math.random*50));
 			}
 			else {
