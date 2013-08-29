@@ -10,7 +10,7 @@
  * Support:	https://github.com/albertoarena/jQuery-Vibrate
  * 
  * Changelog
- * 1.2.1	29 aug 2013: Added an option of stopAfterTime and added code so that it gets wrapped only once.
+ * 1.2.1	29 aug 2013: Added an option of stopAfterTime and added code so that it gets wrapped only once, added callback when vibrations stops
  * 1.2		16 mar 2013: optimized code and improved speed
  * 1.1		29 oct 2011: added vibrateClass and overClass parameters
  * 1.0.117	dec 2010: removed "overflow:hidden" attribute to both wrapping DIVS (to allow transparency outside the vibrating box); added overEffect parameter
@@ -37,23 +37,21 @@
 			}; 
 			$this.defaults = $.extend($this.defaults, options);
 			$this.defaults.speedBackup = $this.defaults.speed;
-			$this.data('vibrate',$this);
-			$this.data('vibrate.status',false);
 			
 			// Applies wrap
-			if('true' != $this.data('vibrate-initiated')) {
+			if(true != $this.defaults.vibrateInitiated) {
 				var css1 = {
 					'float': $this.css("float"),
 					'margin': $this.css("margin-top")+' '+$this.css("margin-right")+' '+$this.css("margin-bottom")+' '+$this.css("margin-left"),
 					'display': $this.css("display"),
 					'width': $this.outerWidth(),
-					'height': $this.outerHeight() + 4,
+					'height': $this.outerHeight(),
 					'padding': '0',
 					'border': '0'
 				}
 				var css2 = {
-					'width': $this.outerWidth() + 4,
-					'height': $this.outerHeight() + 4,
+					'width': $this.outerWidth(),
+					'height': $this.outerHeight(),
 					'padding': '0',
 					'margin': '0',
 					'border': '0',
@@ -63,8 +61,11 @@
 				$this.parent().css( css2 );
 				$this.parent().parent().css( css1 );
 				$this.css({ "margin": "0" });
-				$this.data('vibrate-initiated', 'true');
+				$this.defaults.vibrateInitiated = true;
 			}
+
+			$this.data('vibrate',$this);
+			$this.data('vibrate.status',false);
 			
 			// Normalizes trigger
 			if($this.defaults.stopAfterTime) {
@@ -72,9 +73,6 @@
 					$this.vibrationStart();
 					setTimeout( function() {
 						$this.vibrationStop();
-						if($this.defaults.callBack) {
-							$this.defaults.callBack();
-						}
 					}, $this.defaults.stopAfterTime*1000);
 				}, Math.round(Math.random*50));
 			}
@@ -133,6 +131,10 @@
 				$(this).stop(false,true);
 				$(this).removeClass( $(this).data('vibrate').defaults.vibrateClass );
 				$(this).data("vibrate.status",false);
+				if($(this).data('vibrate').defaults.callBack) {
+					$(this).data('vibrate').defaults.callBack();
+				}
+				
 			}
 		}
 
