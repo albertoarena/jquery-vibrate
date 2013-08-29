@@ -2,7 +2,7 @@
 jQuery Vibrate Plugin is a jQuery component, self-contained, that allows you to have "vibrating" tags in your page, like buttons, DIVs, etc.
 It is very simple to use and integrate, and lightweight (only 3.54 kB in minified version)!
 
-It was developed by [albertoarena](https://github.com/albertoarena). You can see his version here. The link below to a demo is his site.
+It was developed by [albertoarena](https://github.com/albertoarena). You can see his version [here](https://github.com/albertoarena/jquery-vibrate). The link below to a demo is his site.
 
 I modified it to add the Vibrate for a fixed Period and a callback function when the vibration gets over.
 
